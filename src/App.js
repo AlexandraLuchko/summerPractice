@@ -10,6 +10,7 @@ import {
 import Table from './Table';
 
 function App(props) {
+
   const { history } = props
 
   return (
