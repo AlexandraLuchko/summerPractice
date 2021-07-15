@@ -1,22 +1,34 @@
-import React, { useState } from 'react';
-import axios from 'axios'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import './table.css';
+import Pagination from './Pagination';
 
 function Table() {
 
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [usersPerPage] = useState(2);
 
-  const api = axios.create({
-    baseURL: `http://localhost:3000/users/`
-  })
+  useEffect(() => {
+    const api = axios.create({
+      baseURL: `http://localhost:3000/users/`
+    })
 
-  api.get('/').then(res => {
-    setUsers(res.data)
-  })
+    api.get('/').then(res => {
+      setUsers(res.data)
+    })
+  }, [...users]);
+  
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
+    <div>  
     <table>
-        {users.map(user => (
+        {currentUsers.map(user => (
           <tr>
             <td>{user.id}</td>
             <td>{user.name}</td>
@@ -29,6 +41,12 @@ function Table() {
           </tr>
         ))}
     </table>
+    <Pagination 
+    usersPerPage={usersPerPage} 
+    totalUsers={users.length} 
+    paginate={paginate}
+    />
+    </div>
   );
 }
 
