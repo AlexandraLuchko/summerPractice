@@ -21,14 +21,33 @@ function Table() {
   
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const [searchValue, setSearchValue] = useState('');
+
+  const filteredUsers = users.filter(user => {
+      return user.name.toLowerCase().includes(searchValue.toLowerCase())
+  })
+
+  const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+
   return (
     <div>  
+      <div className="form">
+        <form className="search_form">
+          <input 
+            type="text"
+            placeholder="Search..."
+            className="search_input"
+            onChange={(event) => setSearchValue(event.target.value)}>
+          </input>
+        </form>
+
+    </div>
     <table>
-        {currentUsers.map(user => (
+    <tbody>
+    {currentUsers.map(user => (
           <tr>
             <td>{user.id}</td>
             <td>{user.name}</td>
@@ -40,10 +59,11 @@ function Table() {
             <td>{user.company.name + ' ' + user.company.catchPhrase + ' ' + user.company.bs}</td>               
           </tr>
         ))}
+    </tbody> 
     </table>
     <Pagination 
     usersPerPage={usersPerPage} 
-    totalUsers={users.length} 
+    totalUsers={filteredUsers.length} 
     paginate={paginate}
     />
     </div>
