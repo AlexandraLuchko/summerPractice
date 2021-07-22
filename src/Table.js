@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './table.css';
 import Pagination from './Pagination';
+import Popup from './Popup';
 
 function Table() {
 
@@ -32,6 +33,10 @@ function Table() {
 
   const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
 
+  const addUser = (id) => {
+    
+  }
+
   return (
     <div>  
       <div className="form">
@@ -43,8 +48,7 @@ function Table() {
             onChange={(event) => setSearchValue(event.target.value)}>
           </input>
         </form>
-
-    </div>
+      </div>
     <table>
     <tbody>
     {currentUsers.map(user => (
@@ -66,6 +70,9 @@ function Table() {
     totalUsers={filteredUsers.length} 
     paginate={paginate}
     />
+    <div>
+      <Popup addUser={addUser}/>
+    </div>
     </div>
   );
 }
