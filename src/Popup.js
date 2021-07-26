@@ -67,6 +67,20 @@ const Popup = (props) => {
     const onClose = () => setModal(false)
     const [id, setId] = useState();
     const [name, setName] = useState();
+    const [userName, setUserName] = useState();
+    const [email, setEmail] = useState();
+    const [street, setStreet] = useState();
+    const [suite, setSuite] = useState();
+    const [city, setCity] = useState();
+    const [zipcode, setZipcode] = useState();
+    const [lat, setLat] = useState();
+    const [lng, setLng] = useState();
+    const [phone, setPhone] = useState();
+    const [website, setWebsite] = useState();
+    const [companyName, setCompanyName] = useState();
+    const [companyCatchPhrase, setcompanyCatchPhrase] = useState();
+    const [companyBs, setCompanyBs] = useState();
+
     
     return (
         <React.Fragment>
@@ -75,20 +89,27 @@ const Popup = (props) => {
                 visible={isModal}
                 title="Add user"
                 content={<form>
-                    <p><input type="text" placeholder="Id" onChange={(event) => setId(event.target.value)}></input></p>
-                    <p><input placeholder="Name" type="text"></input></p>
-                    <p><input placeholder="Username" type="text"></input></p>
-                    <p><input placeholder="Email" type="text"></input></p>
-                    <p><input placeholder="Address" type="text"></input></p>
-                    <p><input placeholder="Phone" type="text"></input></p>
-                    <p><input placeholder="Website" type="text"></input></p>
-                    <p><input placeholder="Company" type="text"></input></p>
+                    <p><input placeholder="Id" onChange={(event) => setId(event.target.value)}></input></p>
+                    <p><input placeholder="Name" onChange={(event) => setName(event.target.value)}></input></p>
+                    <p><input placeholder="Username" onChange={(event) => setUserName(event.target.value)}></input></p>
+                    <p><input placeholder="Email" onChange={(event) => setEmail(event.target.value)}></input></p>
+                    <p><input placeholder="Street" onChange={(event) => setStreet(event.target.value)}></input></p>
+                    <p><input placeholder="Suite" onChange={(event) => setSuite(event.target.value)}></input></p>
+                    <p><input placeholder="City" onChange={(event) => setCity(event.target.value)}></input></p>
+                    <p><input placeholder="Zipcode" onChange={(event) => setZipcode(event.target.value)}></input></p>
+                    <p><input placeholder="Lat" onChange={(event) => setLat(event.target.value)}></input></p>
+                    <p><input placeholder="Lng" onChange={(event) => setLng(event.target.value)}></input></p>
+                    <p><input placeholder="Phone" onChange={(event) => setPhone(event.target.value)}></input></p>
+                    <p><input placeholder="Website" onChange={(event) => setWebsite(event.target.value)}></input></p>
+                    <p><input placeholder="Company Name" onChange={(event) => setCompanyName(event.target.value)}></input></p>
+                    <p><input placeholder="Company Catch Phrase" onChange={(event) => setcompanyCatchPhrase(event.target.value)}></input></p>
+                    <p><input placeholder="Company Name" onChange={(event) => setCompanyBs(event.target.value)}></input></p>
                 </form>
                 }
                 footer={
                     <div>
                         <button onClick={onClose}>Close</button>
-                        <button onClick={() => props.addUser(id)}>Submit</button>
+                        <button onClick={() => props.addUser(id, name, userName, email, street, suite, city, zipcode, lat, lng, phone, website, companyName, companyCatchPhrase, companyBs)}>Submit</button>
                     </div>
                 }
                 onClose={onClose}

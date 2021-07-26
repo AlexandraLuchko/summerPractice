@@ -18,7 +18,7 @@ function Table() {
     api.get('/').then(res => {
       setUsers(res.data)
     })
-  }, [...users]);
+  }, []);
   
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
@@ -26,6 +26,7 @@ function Table() {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const [searchValue, setSearchValue] = useState('');
+  console.log(users);
 
   const filteredUsers = users.filter(user => {
       return user.name.toLowerCase().includes(searchValue.toLowerCase())
@@ -33,8 +34,33 @@ function Table() {
 
   const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
 
-  const addUser = (id) => {
-    
+  const addUser = (id, name, username, email, street, suite, city, zipcode, lat, lng, phone, website, companyName, companyCatchPhrase, companyBs) => {
+    let address = {};
+    let company = {};
+    address.geo = {};
+    const newUser = {id, name, username, email, address, phone, website, company};
+    newUser.address.street = street;
+    newUser.address.suite = suite;
+    newUser.address.city = city;
+    newUser.address.zipcode = zipcode;
+    newUser.address.geo.lat = lat;
+    newUser.address.geo.lng = lng;
+    newUser.company.name = companyName;
+    newUser.company.catchPhrase = companyCatchPhrase;
+    newUser.company.bs = companyBs;
+    users.push(newUser);
+    setUsers([...users]);
+  }
+
+  const deleteUser = (id) => {
+    let noDeletedUser;
+      if(window.confirm("Are you sure?"))
+      {
+        noDeletedUser = users.filter(function(user){
+          return user.id !== id;
+        });
+        setUsers([...noDeletedUser]);
+      }
   }
 
   return (
@@ -60,7 +86,8 @@ function Table() {
             <td>{user.address.street + ' ' +user.address.suite + ' ' + user.address.city + ' ' + user.address.zipcode + ' ' + user.address.geo.lat + ' ' + user.address.geo.lng}</td>  
             <td>{user.phone}</td>
             <td>{user.website}</td>
-            <td>{user.company.name + ' ' + user.company.catchPhrase + ' ' + user.company.bs}</td>               
+            <td>{user.company.name + ' ' + user.company.catchPhrase + ' ' + user.company.bs}</td>   
+            <td><button onClick={() => deleteUser(user.id)}>Delete</button></td>            
           </tr>
         ))}
     </tbody> 
