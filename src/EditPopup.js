@@ -1,6 +1,7 @@
 import { id } from 'prelude-ls';
 import React, { useEffect, useState } from 'react';
 import './EditPopup.css';
+import Table from './Table'
 
 interface ModalProps {
     visible: boolean,
@@ -81,6 +82,8 @@ const EditPopup = (props) => {
     const [companyBs, setCompanyBs] = useState();
 
     
+
+    
     return (
         <React.Fragment>
             <button className="edit-button" onClick={() => setModal(true)}>Edit</button>
@@ -88,21 +91,21 @@ const EditPopup = (props) => {
                 visible={isModal}
                 title="Edit"
                 content={<form>
-                    <p><input placeholder="Id" onChange={(event) => setId(event.target.value)}></input></p>
-                    <p><input placeholder="Name" onChange={(event) => setName(event.target.value)}></input></p>
-                    <p><input placeholder="Username" onChange={(event) => setUserName(event.target.value)}></input></p>
-                    <p><input placeholder="Email" onChange={(event) => setEmail(event.target.value)}></input></p>
-                    <p><input placeholder="Street" onChange={(event) => setStreet(event.target.value)}></input></p>
-                    <p><input placeholder="Suite" onChange={(event) => setSuite(event.target.value)}></input></p>
-                    <p><input placeholder="City" onChange={(event) => setCity(event.target.value)}></input></p>
-                    <p><input placeholder="Zipcode" onChange={(event) => setZipcode(event.target.value)}></input></p>
-                    <p><input placeholder="Lat" onChange={(event) => setLat(event.target.value)}></input></p>
-                    <p><input placeholder="Lng" onChange={(event) => setLng(event.target.value)}></input></p>
-                    <p><input placeholder="Phone" onChange={(event) => setPhone(event.target.value)}></input></p>
-                    <p><input placeholder="Website" onChange={(event) => setWebsite(event.target.value)}></input></p>
-                    <p><input placeholder="Company Name" onChange={(event) => setCompanyName(event.target.value)}></input></p>
-                    <p><input placeholder="Company Catch Phrase" onChange={(event) => setcompanyCatchPhrase(event.target.value)}></input></p>
-                    <p><input placeholder="Company Name" onChange={(event) => setCompanyBs(event.target.value)}></input></p>
+                    <p><input placeholder="Id" value={props.user.id} onChange={(event) => setId(event.target.value)}></input></p>
+                    <p><input placeholder="Name" value={props.user.name} onChange={(event) => setName(event.target.value)}></input></p>
+                    <p><input placeholder="Username" value={props.user.username} onChange={(event) => setUserName(event.target.value)}></input></p>
+                    <p><input placeholder="Email" value={props.user.email} onChange={(event) => setEmail(event.target.value)}></input></p>
+                    <p><input placeholder="Street" value={props.user.address.street} onChange={(event) => setStreet(event.target.value)}></input></p>
+                    <p><input placeholder="Suite" value={props.user.address.suite} onChange={(event) => setSuite(event.target.value)}></input></p>
+                    <p><input placeholder="City" value={props.user.address.city} onChange={(event) => setCity(event.target.value)}></input></p>
+                    <p><input placeholder="Zipcode" value={props.user.address.zipcode} onChange={(event) => setZipcode(event.target.value)}></input></p>
+                    <p><input placeholder="Lat" value={props.user.address.geo.lat}onChange={(event) => setLat(event.target.value)}></input></p>
+                    <p><input placeholder="Lng" value={props.user.address.geo.lng}onChange={(event) => setLng(event.target.value)}></input></p>
+                    <p><input placeholder="Phone" value={props.user.phone}onChange={(event) => setPhone(event.target.value)}></input></p>
+                    <p><input placeholder="Website" value={props.user.website} onChange={(event) => setWebsite(event.target.value)}></input></p>
+                    <p><input placeholder="Company Name" value={props.user.company.name} onChange={(event) => setCompanyName(event.target.value)}></input></p>
+                    <p><input placeholder="Company Catch Phrase" value={props.user.company.catchPhrase} onChange={(event) => setcompanyCatchPhrase(event.target.value)}></input></p>
+                    <p><input placeholder="Company Name" value={props.user.company.bs} onChange={(event) => setCompanyBs(event.target.value)}></input></p>
                 </form>
                 }
                 footer={

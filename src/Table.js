@@ -116,7 +116,7 @@ function Table() {
             <td>{user.phone}</td>
             <td>{user.website}</td>
             <td>{user.company.name + ' ' + user.company.catchPhrase + ' ' + user.company.bs}</td> 
-            <td><EditPopup editUser={editUser} /></td>  
+            <td><EditPopup editUser={editUser} user={user}/></td>  
             <td><button className="delete-button" onClick={() => deleteUser(user.id)}>Delete</button></td>            
           </tr>
         ))}
