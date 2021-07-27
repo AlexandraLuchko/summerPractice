@@ -1,6 +1,6 @@
 import { id } from 'prelude-ls';
 import React, { useEffect, useState } from 'react';
-import './Popup.css';
+import './EditPopup.css';
 
 interface ModalProps {
     visible: boolean,
@@ -61,7 +61,7 @@ const Modal = ({
 
 
 
-const Popup = (props) => {
+const EditPopup = (props) => {
     const [isModal, setModal] = React.useState(false)
     const onClose = () => setModal(false)
     const [id, setId] = useState();
@@ -83,10 +83,10 @@ const Popup = (props) => {
     
     return (
         <React.Fragment>
-            <button id="button" onClick={() => setModal(true)}>Add user</button>
+            <button className="edit-button" onClick={() => setModal(true)}>Edit</button>
             <Modal
                 visible={isModal}
-                title="Add user"
+                title="Edit"
                 content={<form>
                     <p><input placeholder="Id" onChange={(event) => setId(event.target.value)}></input></p>
                     <p><input placeholder="Name" onChange={(event) => setName(event.target.value)}></input></p>
@@ -108,7 +108,7 @@ const Popup = (props) => {
                 footer={
                     <div>
                         <button onClick={onClose}>Close</button>
-                        <button onClick={() => props.addUser(id, name, userName, email, street, suite, city, zipcode, lat, lng, phone, website, companyName, companyCatchPhrase, companyBs)}>Submit</button>
+                        <button onClick={() => props.editUser(id, name, userName, email, street, suite, city, zipcode, lat, lng, phone, website, companyName, companyCatchPhrase, companyBs)}>Save</button>
                     </div>
                 }
                 onClose={onClose}
@@ -117,4 +117,4 @@ const Popup = (props) => {
     );
 };
 
-export default Popup;
+export default EditPopup;

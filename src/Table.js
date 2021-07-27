@@ -3,6 +3,7 @@ import axios from 'axios';
 import './table.css';
 import Pagination from './Pagination';
 import Popup from './Popup';
+import EditPopup from './EditPopup';
 
 function Table() {
 
@@ -26,7 +27,6 @@ function Table() {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const [searchValue, setSearchValue] = useState('');
-  console.log(users);
 
   const filteredUsers = users.filter(user => {
       return user.name.toLowerCase().includes(searchValue.toLowerCase())
@@ -63,6 +63,35 @@ function Table() {
       }
   }
 
+  const editUser = (id, name, username, email, street, suite, city, zipcode, lat, lng, phone, website,  companyName, companyCatchPhrase, companyBs) => {
+      let address = {};
+      let company = {};
+      address.geo = {};
+      const editedUser = {id, name, username, email, address, phone, website, company}
+      editedUser.id = id;
+      editedUser.name = name;
+      editedUser.username = username;
+      editedUser.email = email;
+      editedUser.address.street = street;
+      editedUser.address.suite = suite;
+      editedUser.address.city = city;
+      editedUser.address.zipcode = zipcode;
+      editedUser.address.geo.lat = lat;
+      editedUser.address.geo.lng = lng;
+      editedUser.phone = phone;
+      editedUser.website = website;
+      editedUser.company.name = companyName;
+      editedUser.company.catchPhrase = companyCatchPhrase;
+      editedUser.company.bs = companyBs;
+      const leftUsers = users.filter(function(user){
+        console.log(user.id)
+        return user.id !== Number(id);   
+      });     
+      leftUsers.push(editedUser);
+      console.log(id);
+      setUsers([...leftUsers]);
+  }
+
   return (
     <div>  
       <div className="form">
@@ -78,7 +107,7 @@ function Table() {
     <table>
     <tbody>
     {currentUsers.map(user => (
-          <tr>
+          <tr className="table-row">
             <td>{user.id}</td>
             <td>{user.name}</td>
             <td>{user.username}</td>
@@ -86,8 +115,9 @@ function Table() {
             <td>{user.address.street + ' ' +user.address.suite + ' ' + user.address.city + ' ' + user.address.zipcode + ' ' + user.address.geo.lat + ' ' + user.address.geo.lng}</td>  
             <td>{user.phone}</td>
             <td>{user.website}</td>
-            <td>{user.company.name + ' ' + user.company.catchPhrase + ' ' + user.company.bs}</td>   
-            <td><button onClick={() => deleteUser(user.id)}>Delete</button></td>            
+            <td>{user.company.name + ' ' + user.company.catchPhrase + ' ' + user.company.bs}</td> 
+            <td><EditPopup editUser={editUser} /></td>  
+            <td><button className="delete-button" onClick={() => deleteUser(user.id)}>Delete</button></td>            
           </tr>
         ))}
     </tbody> 

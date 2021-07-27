@@ -29,3 +29,15 @@ td{
 .search_input{
     margin-left: 80px;
 }
+
+.table-row:hover{
+background-color:rgb(219, 219, 219);
+}
+
+.delete-button{
+color:red;
+}
+
+.edit-button{
+color: mediumblue;
+}
