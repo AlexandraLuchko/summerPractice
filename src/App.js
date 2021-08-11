@@ -13,7 +13,6 @@ function App(props) {
 
   const { history } = props
 
-
   return (
     <div className="App">
      <Switch>

@@ -1,33 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import './table.css';
 import Pagination from './Pagination';
 import Popup from './Popup';
 import EditPopup from './EditPopup';
+import { getUsers as getUsersAction, deleteUser as deleteUserAction } from './modules/users'
+import { connect, useDispatch } from 'react-redux';
 
-function Table() {
-
-  const [users, setUsers] = useState([]);
+function Table({users, getUsers, deleteUser}) {
+  const dispatch = useDispatch()
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage] = useState(2);
 
   useEffect(() => {
-    const api = axios.create({
-      baseURL: `http://localhost:3000/users/`
-    })
-
-    api.get('/').then(res => {
-      setUsers(res.data)
-    })
+    dispatch(getUsers())
   }, []);
   
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
-
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
   const [searchValue, setSearchValue] = useState('');
-
   const filteredUsers = users.filter(user => {
       return user.name.toLowerCase().includes(searchValue.toLowerCase())
   })
@@ -49,19 +40,19 @@ function Table() {
     newUser.company.catchPhrase = companyCatchPhrase;
     newUser.company.bs = companyBs;
     users.push(newUser);
-    setUsers([...users]);
+    // setUsers([...users]);
   }
 
-  const deleteUser = (id) => {
-    let noDeletedUser;
-      if(window.confirm("Are you sure?"))
-      {
-        noDeletedUser = users.filter(function(user){
-          return user.id !== id;
-        });
-        setUsers([...noDeletedUser]);
-      }
-  }
+  // const deleteUser = (id) => {
+  //   let noDeletedUser;
+  //     if(window.confirm("Are you sure?"))
+  //     {
+  //       noDeletedUser = users.filter(function(user){
+  //         return user.id !== id;
+  //       });
+  //        setUsers([...noDeletedUser]);
+  //     }
+  // }
 
   const editUser = (id, name, username, email, street, suite, city, zipcode, lat, lng, phone, website,  companyName, companyCatchPhrase, companyBs) => {
       let address = {};
@@ -89,7 +80,7 @@ function Table() {
       });     
       leftUsers.push(editedUser);
       console.log(id);
-      setUsers([...leftUsers]);
+      // setUsers([...leftUsers]);
   }
 
   return (
@@ -134,4 +125,10 @@ function Table() {
   );
 }
 
-export default Table;
+export default connect(
+  ({ users }) => ({ users: users.users }),
+  {
+    getUsers: getUsersAction,
+    deleteUser: deleteUserAction,
+  }
+)(Table);

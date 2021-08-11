@@ -30,15 +30,12 @@ const Modal = ({
         }
     }
       
-    
-
     // c помощью useEffect цепляем обработчик к нажатию клавиш
     // https://ru.reactjs.org/docs/hooks-effect.html
     React.useEffect(() => {
         document.addEventListener('keydown', onKeydown)
         return () => document.removeEventListener('keydown', onKeydown)
     })
-
 
     // если компонент невидим, то не отображаем его
     if (!visible) return null;
@@ -60,8 +57,6 @@ const Modal = ({
     </div>
 }
 
-
-
 const EditPopup = (props) => {
     const [isModal, setModal] = React.useState(false)
     const onClose = () => setModal(false)
@@ -81,9 +76,6 @@ const EditPopup = (props) => {
     const [companyCatchPhrase, setcompanyCatchPhrase] = useState();
     const [companyBs, setCompanyBs] = useState();
 
-    
-
-    
     return (
         <React.Fragment>
             <button className="edit-button" onClick={() => setModal(true)}>Edit</button>
