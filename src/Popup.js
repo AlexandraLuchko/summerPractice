@@ -1,14 +1,7 @@
-import { id } from 'prelude-ls';
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { createUser } from './modules/users';
 import './Popup.css';
-
-interface ModalProps {
-    visible: boolean,
-    title: string,
-    content: ReactElement | string,
-    footer: ReactElement | string,
-    onClose: () => void,
-}
 
 const Modal = ({
                    visible = false,
@@ -16,9 +9,8 @@ const Modal = ({
                    content = '',
                    footer = '',
                    onClose,
-               }: ModalProps) => {
+               }) => {
 
-    // создаем обработчик нажатия клавиши Esc
     const onKeydown = ({key}) => {
         switch (key) {
             case 'Escape':
@@ -26,23 +18,17 @@ const Modal = ({
                 break;
 
                 default:
+                break;
         }
     }
       
-    
-
-    // c помощью useEffect цепляем обработчик к нажатию клавиш
-    // https://ru.reactjs.org/docs/hooks-effect.html
-    React.useEffect(() => {
+    useEffect(() => {
         document.addEventListener('keydown', onKeydown)
         return () => document.removeEventListener('keydown', onKeydown)
     })
 
-
-    // если компонент невидим, то не отображаем его
     if (!visible) return null;
 
-    // или возвращаем верстку модального окна
     return <div className="modal" onClick={onClose}>
         <div className="modal-dialog" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
@@ -59,56 +45,51 @@ const Modal = ({
     </div>
 }
 
-
-
 const Popup = (props) => {
-    const [isModal, setModal] = React.useState(false)
-    const onClose = () => setModal(false)
-    const [id, setId] = useState();
-    const [name, setName] = useState();
-    const [userName, setUserName] = useState();
-    const [email, setEmail] = useState();
-    const [street, setStreet] = useState();
-    const [suite, setSuite] = useState();
-    const [city, setCity] = useState();
-    const [zipcode, setZipcode] = useState();
-    const [lat, setLat] = useState();
-    const [lng, setLng] = useState();
-    const [phone, setPhone] = useState();
-    const [website, setWebsite] = useState();
-    const [companyName, setCompanyName] = useState();
-    const [companyCatchPhrase, setcompanyCatchPhrase] = useState();
-    const [companyBs, setCompanyBs] = useState();
+    const dispatch = useDispatch()
 
-    
+    const [user, setUser] = useState({})
+
+    const [isModal, setModal] = useState(false)
+    const onClose = () => {
+        setUser({})
+        setModal(false)       
+    }
+
+    let handleChange = (event) => {
+        let newUser = {...user}
+        newUser[event.target.name] = event.target.value
+        setUser({...newUser})
+    }
+
     return (
         <React.Fragment>
             <button id="button" onClick={() => setModal(true)}>Add user</button>
             <Modal
                 visible={isModal}
                 title="Add user"
-                content={<form>
-                    <p><input placeholder="Id" onChange={(event) => setId(event.target.value)}></input></p>
-                    <p><input placeholder="Name" onChange={(event) => setName(event.target.value)}></input></p>
-                    <p><input placeholder="Username" onChange={(event) => setUserName(event.target.value)}></input></p>
-                    <p><input placeholder="Email" onChange={(event) => setEmail(event.target.value)}></input></p>
-                    <p><input placeholder="Street" onChange={(event) => setStreet(event.target.value)}></input></p>
-                    <p><input placeholder="Suite" onChange={(event) => setSuite(event.target.value)}></input></p>
-                    <p><input placeholder="City" onChange={(event) => setCity(event.target.value)}></input></p>
-                    <p><input placeholder="Zipcode" onChange={(event) => setZipcode(event.target.value)}></input></p>
-                    <p><input placeholder="Lat" onChange={(event) => setLat(event.target.value)}></input></p>
-                    <p><input placeholder="Lng" onChange={(event) => setLng(event.target.value)}></input></p>
-                    <p><input placeholder="Phone" onChange={(event) => setPhone(event.target.value)}></input></p>
-                    <p><input placeholder="Website" onChange={(event) => setWebsite(event.target.value)}></input></p>
-                    <p><input placeholder="Company Name" onChange={(event) => setCompanyName(event.target.value)}></input></p>
-                    <p><input placeholder="Company Catch Phrase" onChange={(event) => setcompanyCatchPhrase(event.target.value)}></input></p>
-                    <p><input placeholder="Company Name" onChange={(event) => setCompanyBs(event.target.value)}></input></p>
-                </form>
-                }
+                content={
+                <form>
+                    <p><input name="id" placeholder="Id" onChange={(event) => handleChange(event)}></input></p>
+                    <p><input name="name" placeholder="Name" onChange={(event) => handleChange(event)}></input></p>
+                    <p><input name="username" placeholder="Username" onChange={(event) => handleChange(event)}></input></p>
+                    <p><input name="email" placeholder="Email" onChange={(event) => handleChange(event)}></input></p>
+                    <p><input name="street" placeholder="Street" onChange={(event) => handleChange(event)}></input></p>
+                    <p><input name="suite" placeholder="Suite" onChange={(event) => handleChange(event)}></input></p>
+                    <p><input name="city" placeholder="City" onChange={(event) => handleChange(event)}></input></p>
+                    <p><input name="zipcode" placeholder="Zipcode" onChange={(event) => handleChange(event)}></input></p>
+                    <p><input name="lat" placeholder="Lat" onChange={(event) => handleChange(event)}></input></p>
+                    <p><input name="lng" placeholder="Lng" onChange={(event) => handleChange(event)}></input></p>
+                    <p><input name="phone" placeholder="Phone" onChange={(event) => handleChange(event)}></input></p>
+                    <p><input name="website" placeholder="Website" onChange={(event) => handleChange(event)}></input></p>
+                    <p><input name="companyName" placeholder="Company Name" onChange={(event) => handleChange(event)}></input></p>
+                    <p><input name="companyCatchPhrase" placeholder="Company Catch Phrase" onChange={(event) => handleChange(event)}></input></p>
+                    <p><input name="companyBs" placeholder="Company Bs" onChange={(event) => handleChange(event)}></input></p>
+                </form>}
                 footer={
                     <div>
                         <button onClick={onClose}>Close</button>
-                        <button onClick={() => props.addUser(id, name, userName, email, street, suite, city, zipcode, lat, lng, phone, website, companyName, companyCatchPhrase, companyBs)}>Submit</button>
+                        <button onClick={() =>  dispatch(createUser(user))}>Submit</button>
                     </div>
                 }
                 onClose={onClose}

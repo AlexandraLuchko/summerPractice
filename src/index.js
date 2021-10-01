@@ -18,11 +18,11 @@ saga.run(sagaWatcher)
 
 ReactDOM.render(
   <React.StrictMode>
-  <Router history={history}>
-  <Provider store={store}>
-  <App />
-  </Provider>
-  </Router>
+    <Router history={history}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );
